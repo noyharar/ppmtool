@@ -14,8 +14,8 @@ public class ProjectTask {
     private Long id;
     @Column(updatable = false, unique = true)
     private String projectSequence;
-    @NotBlank(message = "Please include a project summery")
-    private String summery;
+    @NotBlank(message = "Please include a project summary")
+    private String summary;
     private String acceptanceCriteria;
     private String status;
     private Integer priority;
@@ -51,12 +51,12 @@ public class ProjectTask {
         this.projectSequence = projectSequence;
     }
 
-    public String getSummery() {
-        return summery;
+    public String getsummary() {
+        return summary;
     }
 
-    public void setSummery(String summery) {
-        this.summery = summery;
+    public void setsummary(String summary) {
+        this.summary = summary;
     }
 
     public String getAcceptanceCriteria() {
@@ -138,7 +138,7 @@ public class ProjectTask {
         return "ProjectTask{" +
                 "id=" + id +
                 ", projectSequence='" + projectSequence + '\'' +
-                ", summery='" + summery + '\'' +
+                ", summary='" + summary + '\'' +
                 ", acceptanceCriteria='" + acceptanceCriteria + '\'' +
                 ", status='" + status + '\'' +
                 ", priority=" + priority +
