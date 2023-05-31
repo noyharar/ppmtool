@@ -4,11 +4,14 @@ import io.agileintelligence.ppmtool.domain.Backlog;
 import io.agileintelligence.ppmtool.domain.Project;
 import io.agileintelligence.ppmtool.domain.User;
 import io.agileintelligence.ppmtool.exceptions.ProjectIdException;
+import io.agileintelligence.ppmtool.exceptions.ProjectNotFoundException;
 import io.agileintelligence.ppmtool.repositories.BacklogRepository;
 import io.agileintelligence.ppmtool.repositories.ProjectRepository;
 import io.agileintelligence.ppmtool.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.security.Principal;
 
 @Service
 public class ProjectService{
@@ -41,23 +44,29 @@ public class ProjectService{
         }
     }
 
-    public Project findProjectByIdentifier(String projectId){
+    public Project findProjectByIdentifier(String projectId, String username){
         Project project = projectRepository.findByProjectIdentifier(projectId.toUpperCase());
         if(project == null){
             throw new ProjectIdException("Project doesn't exist");
         }
+        if(!project.getProjectLeader().equals(username)){
+            throw new ProjectNotFoundException("Project not found in your account");
+        }
         return project;
     }
 
-    public Iterable<Project> findAllProjects(){
-        Iterable<Project>  projects = projectRepository.findAll();
+    public Iterable<Project> findAllProjects(String username){
+        Iterable<Project>  projects = projectRepository.findAllByProjectLeader(username);
         return projects;
     }
 
-    public void deleteProjectByIdentifier(String projectId){
+    public void deleteProjectByIdentifier(String projectId, String username){
         Project project = projectRepository.findByProjectIdentifier(projectId.toUpperCase());
         if(project == null){
             throw new ProjectIdException("Project doesn't exist");
+        }
+        if(!project.getProjectLeader().equals(username)){
+            throw new ProjectNotFoundException("Project not found in your account");
         }
         projectRepository.delete(project);
     }
