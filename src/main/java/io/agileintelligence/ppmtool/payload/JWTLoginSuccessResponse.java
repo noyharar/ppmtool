@@ -1,10 +1,10 @@
 package io.agileintelligence.ppmtool.payload;
 
-public class JWTLoginSucessReponse {
+public class JWTLoginSuccessResponse {
     private boolean success;
     private String token;
 
-    public JWTLoginSucessReponse(boolean success, String token) {
+    public JWTLoginSuccessResponse(boolean success, String token) {
         this.success = success;
         this.token = token;
     }
@@ -27,7 +27,7 @@ public class JWTLoginSucessReponse {
 
     @Override
     public String toString() {
-        return "JWTLoginSucessReponse{" +
+        return "JWTLoginSuccessResponse{" +
                 "success=" + success +
                 ", token='" + token + '\'' +
                 '}';

@@ -16,21 +16,21 @@ public class ProjectService{
     private BacklogRepository backlogRepository;
 
     public Project saveOrUpdate(Project project){
-        String project_id = project.getProjectIdentifier().toUpperCase();
         try{
-            project.setProjectIdentifier(project_id);
+            project.setProjectIdentifier(project.getProjectIdentifier().toUpperCase());
             if(project.getId() == null){
                 Backlog backlog = new Backlog();
                 project.setBacklog(backlog);
                 backlog.setProject(project);
-                backlog.setProjectIdentifier(project_id);
+                backlog.setProjectIdentifier(project.getProjectIdentifier().toUpperCase());
             }
             if(project.getId() != null){
-                project.setBacklog(backlogRepository.findByProjectIdentifier(project_id));
+                project.setBacklog(backlogRepository.findByProjectIdentifier(project.getProjectIdentifier().toUpperCase()));
             }
-        return projectRepository.save(project);
+            return projectRepository.save(project);
+
         }catch (Exception e){
-            throw new ProjectIdException("Project id:" + project_id + " already exists");
+            throw new ProjectIdException("Project ID '"+project.getProjectIdentifier().toUpperCase()+"' already exists");
         }
     }
 
